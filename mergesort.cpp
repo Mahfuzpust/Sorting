@@ -1,66 +1,82 @@
-#include<iostream>
-using namespace std;
+#include <iostream>
+  using namespace std;
 
-void meargeSort(int *array, int L, int R){
-    if(R-L>1){
-        int mid = L + (R - L)/2;
-        meargeSort(array, L, mid);
-        meargeSort(array, mid, R);
+void merge(int array[], int l, int mid, int r) {
+  int i = l;
+  int j = mid + 1;
+  int k = l;
 
-        int i=L,j=mid,k=0;
-        int temp[R-L];
-        while(i<mid && j<R){
-            if (array[i] < array[j])
-            {
-                  temp[k] = array[i];
-                  i++;
-                  k++;
-            }
-            else
-            {
-               temp[k] = array[j];
-               k++;
-               j++;
-            }
-        }
+  /* create temp array */
+  int temp[5];
 
-        while(j<R)
-        {
-            temp[k] = array[j];
-            k++;
-            j++;
-        }
+  while (i <= mid && j <= r) {
+    if (array[i] <= array[j]) {
+      temp[k] = array[i];
+      i++;
+      k++;
+    } else {
+      temp[k] = array[j];
+      j++;
+      k++;
+    }
 
-         while(i<mid)
-        {
-           temp[k] = array[i];
-           k++;
-           i++;
-        }
+  }
 
-        if(R-L>1)
-        for(int i=0; i<k;i++)
-        array[L+i]=temp[i];
+  /* Copy the remaining elements of first half, if there are any */
+  while (i <= mid) {
+    temp[k] = array[i];
+    i++;
+    k++;
+
+  }
+
+  /* Copy the remaining elements of second half, if there are any */
+  while (j <= r) {
+    temp[k] = array[j];
+    j++;
+    k++;
+  }
+
+  /* Copy the temp array to original array */
+  for (int k = l; k <= r; k++) {
+    array[k] = temp[k];
+  }
+}
+
+/* l is for left index and r is right index of the
+   sub-array of arr to be sorted */
+void mergeSort(int array[], int l, int r) {
+  if (l < r) {
+    // find midpoint
+    int mid = (l + r) / 2;
+
+    // recurcive mergesort first and second halves
+    mergeSort(array, l, mid);
+    mergeSort(array, mid + 1, r);
+
+    // merge
+    merge(array, l, mid, r);
+  }
+}
+void print(int array[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        cout << " " << array[i];
     }
 }
 
+int main() {
+  int n;
+  cin >> n;
+  int array[n];
+  for(int i=0;i<n;i++)
+  {
+      cin >>array[i];
+  }
 
-void print_array(int array[], int n){
-    for(int i=0; i<n; i++)
-        cout << " " << array[i];
-
+  mergeSort(array, 0, n- 1); // mergesort(arr,left,right) called
+  print(array,n);
+  return 0;
 }
-
-
-int main(){
-    int n;
-    cin >> n;
-    int array[n];
-    for(int i=0; i<n ; i++)
-    cin >> array[i];
-    meargeSort(array, 0, n);
-    print_array(array, n);
-    return 0;
-}
-
 
