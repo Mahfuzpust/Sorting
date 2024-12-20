@@ -1,0 +1,45 @@
+#include<iostream>
+using namespace std;
+
+int bubbleSort(int array[], int key, int low, int high)
+{
+    while(low <= high)
+    {
+        int mid;
+         mid = (low+high)/2;
+
+        if(key == array[mid])
+        {
+            return mid;
+        }
+        else if(key > array[mid])
+        {
+            low = mid +1;
+        }
+        else{
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
+
+int main()
+{
+    int n, key_value;
+    cin >> n;
+    int array[n];
+    for(int i=0;i<n;i++)
+    {
+        cin >> array[i];
+    }
+    cin >> key_value;
+
+    int result;
+     result= bubbleSort(array, key_value, 0, n-1);
+     if (result == -1)
+    printf("Not found");
+  else
+    printf("Element is found at index %d", result);
+
+
+}
